@@ -3,8 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-//import java.io.FileWriter;
-//import java.util.Date;
+import java.io.FileWriter;
+import java.util.Date;
 
 
 public class ClientGUI extends JFrame implements ActionListener, Thread.UncaughtExceptionHandler {
@@ -25,7 +25,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
     private final JButton btnDisconnect = new JButton("<html><b>Disconnect</b></html>");
     private final JTextField tfMessage = new JTextField();
     private final JButton btnSend = new JButton("Send");
-    //private String dateSend;
+    private String dateSend;
 
     private final JList<String> userList = new JList<>();
 
@@ -53,7 +53,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         scrollUsers.setPreferredSize(new Dimension(100, 0));
         cbAlwaysOnTop.addActionListener(this);
         tfMessage.addActionListener(this);
-        //btnSend.addActionListener(this);
+        btnSend.addActionListener(this);
 
         panelTop.add(tfIPAddress);
         panelTop.add(tfPort);
@@ -77,17 +77,17 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
     public void actionPerformed(ActionEvent e) { //вывод окна поверх остальных
         Object src = e.getSource();
 
-//        if(src == btnSend){
-//            dateSend = "" + new Date();
-//            log.append(dateSend + "\n" + tfMessage.getText() + "\n");
-//            writeLogFile();
-//        }
+        if(src == btnSend){
+            dateSend = "" + new Date();
+            log.append(dateSend + "\n" + tfMessage.getText() + "\n");
+            writeLogFile();
+        }
         if (src == cbAlwaysOnTop) {
             setAlwaysOnTop(cbAlwaysOnTop.isSelected());
         }
-        else
-            throw new RuntimeException("Unknown source: " + src); //ОЧЕНЬ, блин понравилось сие место, пол дня
-                                                                        //  тупил почему программа паддает ХD)))
+//        else
+//            throw new RuntimeException("Unknown source: " + src); //ОЧЕНЬ, блин понравилось сие место, пол дня
+//                                                                        //  тупил почему программа паддает ХD)))
     }
 
     @Override
@@ -102,12 +102,12 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         System.exit(1);
     }
 
-//    public void writeLogFile(){
-//        try {
-//            FileWriter write = new FileWriter("log.txt", true);
-//            write.append(dateSend + "\n"+tfMessage.getText() + "\n");
-//            write.close();
-//            tfMessage.setText("");
-//        } catch (Exception e){JOptionPane.showMessageDialog(null, "Ошибка при записи, ищи!");}
-//    }
+    public void writeLogFile(){
+        try {
+            FileWriter write = new FileWriter("log.txt", true);
+            write.append(dateSend + "\n"+tfMessage.getText() + "\n");
+            write.close();
+            tfMessage.setText("");
+        } catch (Exception e){JOptionPane.showMessageDialog(null, "Ошибка при записи, ищи!");}
+    }
 }
